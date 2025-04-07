@@ -1,0 +1,85 @@
+package com.example.springdemo.Controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.stereotype.Repository;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.example.springdemo.Entity.ExerciseEntity;
+import com.example.springdemo.Entity.UserEntity;
+import com.example.springdemo.Service.ExerciseService;
+
+@RestController
+public class ExerciseController {
+	@Autowired ExerciseService use;
+	@GetMapping("/getexercise")
+	public List<ExerciseEntity> get()
+	{
+		return use.getall3();
+	}
+	@PostMapping("/epost")
+	public ExerciseEntity execise(@RequestBody ExerciseEntity obj)
+	{
+		return use.post(obj);
+	}
+	@DeleteMapping("/deleteexercise/{data}")
+	public String deleted(@PathVariable int data)
+	{
+		return use.deleteid(data);
+	}
+	@PutMapping("/updateexercise/{id}")
+	public ExerciseEntity updatebyid(@PathVariable int id,@RequestBody ExerciseEntity end)
+	{
+		return use.updateid(id, end);
+	}
+	@GetMapping("/epages")
+	public Page<ExerciseEntity>page_12(@RequestParam int page,@RequestParam int size)
+	{
+		return use.get_data_all(page,size);
+	}
+	@GetMapping("/estart")
+	public List<ExerciseEntity> start_1(@RequestParam String etype)
+	{
+		return use.start(etype);
+	}
+	@GetMapping("/eend")
+	public List<ExerciseEntity> end_1(@RequestParam String etype)
+	{
+		return use.end(etype);
+	}
+	@GetMapping("/econtainss")
+	public List<ExerciseEntity> contains(@RequestParam String etype)
+	{
+		return use.namecontain(etype);
+	}
+	@GetMapping("/enotcontainss")
+	public List<ExerciseEntity> notcon(@RequestParam String etype)
+	{
+		return use.notcontains(etype);
+	}
+	@GetMapping("/eandd")
+	public List<ExerciseEntity> specific(@RequestParam String etype,@RequestParam int duration)
+	{
+		return use.retrive_specific(etype, duration);
+	}
+	@GetMapping("/eorr")
+	public List<ExerciseEntity>specificfor(@RequestParam String etype,@RequestParam int duration)
+	{
+		return use.retrive_specificforor(etype, duration);
+	}
+	@GetMapping("/einn")
+	public List<ExerciseEntity>Sortingin(@RequestParam List<String>etype)
+	{
+		return use.fetchone(etype);
+	}
+
+}
