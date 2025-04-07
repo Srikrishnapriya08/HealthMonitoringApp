@@ -1,0 +1,86 @@
+package com.example.springdemo.Controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.example.springdemo.Entity.RecordEntity;
+import com.example.springdemo.Entity.SleepEntity;
+import com.example.springdemo.Entity.UserEntity;
+import com.example.springdemo.Service.SleepService;
+
+@RestController
+public class SleepController {
+	@Autowired SleepService use;
+	@GetMapping("/getsleep")
+	public List<SleepEntity> get()
+	{
+		return use.getall5();
+	}
+	@PostMapping("/sleeppost")
+	public  SleepEntity sleep(@RequestBody SleepEntity obj)
+	{
+		return use.post(obj);
+	
+	}
+	@DeleteMapping("/deletesleep/{data}")
+	public String deleted(@PathVariable int data)
+	{
+		return use.deleteid(data);
+	}
+	@PutMapping("/updatesleep/{id}")
+	public SleepEntity updatebyid(@PathVariable int id,@RequestBody SleepEntity end)
+	{
+		return use.updateid(id, end);
+	}
+	@GetMapping("/sleeppages")
+	public Page<SleepEntity>page_12(@RequestParam int page,@RequestParam int size)
+	{
+		return use.get_data_all(page,size);
+	}
+	@GetMapping("/sleepstart")
+	public List<SleepEntity> start_1(@RequestParam String stages)
+	{
+		return use.start(stages);
+	}
+	@GetMapping("/sleepend")
+	public List<SleepEntity> end_1(@RequestParam String stages)
+	{
+		return use.end(stages);
+	}
+	@GetMapping("/sleepcontainss")
+	public List<SleepEntity> contains(@RequestParam String stages)
+	{
+		return use.namecontain(stages);
+	}
+	@GetMapping("/sleepnotcontainss")
+	public List<SleepEntity> notcon(@RequestParam String stages)
+	{
+		return use.notcontains(stages);
+	}
+	@GetMapping("/sleepandd")
+	public List<SleepEntity> specific(@RequestParam String stages,@RequestParam String duration)
+	{
+		return use.retrive_specific(stages, duration);
+	}
+	@GetMapping("/sleeporr")
+	public List<SleepEntity>specificfor(@RequestParam String stages,@RequestParam String duration)
+	{
+		return use.retrive_specificforor(stages, duration);
+	}
+	@GetMapping("/sleepinn")
+	public List<SleepEntity>Sortingin(@RequestParam List<String>stages)
+	{
+		return use.fetchone(stages);
+	}
+
+}
