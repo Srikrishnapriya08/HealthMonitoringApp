@@ -1,0 +1,96 @@
+package com.example.springdemo.Controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.example.springdemo.Entity.UserEntity;
+import com.example.springdemo.Service.UserService;
+
+@RestController
+public class UserController {
+	@Autowired UserService use;
+	@PostMapping("/userpost")
+	public UserEntity user(@RequestBody UserEntity obj)
+	{
+		return use.post(obj);
+	}
+	@GetMapping("/userget")
+	public List<UserEntity> get()
+	{
+		return use.getall();
+	}
+	@DeleteMapping("/deleteuser/{data}")
+	public String deleted(@PathVariable int data)
+	{
+		return use.deleteid(data);
+	}
+	@PutMapping("/updateuser/{id}")
+		public UserEntity updatebyid(@PathVariable int id,@RequestBody UserEntity end)
+		{
+			return use.updateid(id, end);
+		}
+	@GetMapping("/pages")
+	public Page<UserEntity>page_12(@RequestParam int page,@RequestParam int size)
+	{
+		return use.get_data_all(page,size);
+	}
+	@GetMapping("/start")
+	public List<UserEntity> start_1(@RequestParam String name)
+	{
+		return use.start(name);
+	}
+	@GetMapping("/end")
+	public List<UserEntity> end_1(@RequestParam String name)
+	{
+		return use.end(name);
+	}
+	@GetMapping("/containss")
+	public List<UserEntity> contains(@RequestParam String name)
+	{
+		return use.namecontain(name);
+	}
+	@GetMapping("/notcontainss")
+	public List<UserEntity> notcon(@RequestParam String name)
+	{
+		return use.notcontains(name);
+	}
+	@GetMapping("/andd")
+	public List<UserEntity> specific(@RequestParam String name,@RequestParam int age)
+	{
+		return use.retrive_specific(name, age);
+	}
+	@GetMapping("/orr")
+	public List<UserEntity>specificfor(@RequestParam String name,@RequestParam int age)
+	{
+		return use.retrive_specificforor(name, age);
+	}
+	@GetMapping("/inn")
+	public List<UserEntity>Sortingin(@RequestParam List<String>name)
+	{
+		return use.fetchone(name);
+	}
+//	@PostMapping("/onetoone")
+//	public UserEntity ppost(@RequestBody UserEntity obj)
+//	{
+//		return use.postdata(obj);
+//	}
+	
+	@PostMapping("/emailll")
+	public String senddata(@RequestParam String receiver,@RequestParam String subject,@RequestParam String body)
+	{
+		return use.sendmail(receiver, subject, body);
+	}
+
+	
+	
+}
