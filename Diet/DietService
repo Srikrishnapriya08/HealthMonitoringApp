@@ -1,0 +1,86 @@
+package com.example.springdemo.Service;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.stereotype.Service;
+
+import com.example.springdemo.Entity.DietEntity;
+import com.example.springdemo.Entity.RecordEntity;
+import com.example.springdemo.Entity.UserEntity;
+import com.example.springdemo.Repository.DietRepo;
+
+@Service
+public class DietService {
+	@Autowired DietRepo rep;
+	public DietEntity post(DietEntity roll)
+	{
+		return rep.save(roll);
+	}
+	public List<DietEntity> getall4()
+	{
+		return rep.findAll();
+	}
+	public String deleteid(int id)
+	{
+		if(rep.existsById(id))
+		{
+			rep.deleteById(id);
+			return "Value Deleted Successfully";
+		}
+		else
+		{
+			return "Value Not Found"+id;
+		}
+	}
+	public DietEntity updateid(int id,DietEntity etd)
+	{
+	     if(rep.existsById(id))
+	     {
+	    	 DietEntity obj=rep.findById(id).get();
+	    	 obj.setFood(etd.getFood());
+	    	 obj.setQuantity(etd.getQuantity());
+	    	 obj.setCalintake(etd.getCalintake());
+	    	 obj.setMealType(etd.getMealType());
+	    	 return rep.save(obj);
+	     }
+	     return etd;
+	}
+	public Page<DietEntity> get_data_all(int page,int size)
+	{
+		PageRequest obj=PageRequest.of(page, size);
+		return rep.findAll(obj);
+	}
+	public List<DietEntity>start(String food)
+	{
+		return rep.findByFoodStartingWith(food);
+	}
+	public List<DietEntity>end(String food)
+	{
+		return rep.findByFoodEndingWith(food);
+	}
+	public List<DietEntity> namecontain(String food)
+	   {
+	  	return rep.findByFoodContains(food);
+	  }
+	public List<DietEntity> notcontains(String food)
+	   {
+		   return rep.findByFoodNotContains(food);
+	   }
+	public List<DietEntity>retrive_specific(String food,int quantity)
+	{
+		return rep.findByFoodAndQuantity(food, quantity);
+	}
+	public List<DietEntity>retrive_specificforor(String food,int quantity)
+	{
+		return rep.findByFoodOrQuantity(food, quantity);
+	}
+	public List<DietEntity>fetchone(List<String>food)
+	{
+		return rep.findByFoodIn(food);
+	}
+	
+
+}
