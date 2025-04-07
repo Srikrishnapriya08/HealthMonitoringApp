@@ -1,0 +1,86 @@
+package com.example.springdemo.Controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.stereotype.Repository;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.example.springdemo.Entity.DietEntity;
+import com.example.springdemo.Entity.RecordEntity;
+import com.example.springdemo.Entity.UserEntity;
+import com.example.springdemo.Service.DietService;
+
+@RestController
+public class DietController {
+	@Autowired DietService use;
+	@GetMapping("/getdiet")
+	public List<DietEntity> get()
+	{
+		return use.getall4();
+	}
+	@PostMapping("/dietpost")
+	public DietEntity Diet(@RequestBody DietEntity obj)
+	{
+		return use.post(obj);
+	}
+	@DeleteMapping("/deletediet/{data}")
+	public String deleted(@PathVariable int data)
+	{
+		return use.deleteid(data);
+	}
+	@PutMapping("/updatediet/{id}")
+	public DietEntity updatebyid(@PathVariable int id,@RequestBody DietEntity end)
+	{
+		return use.updateid(id, end);
+	}
+	@GetMapping("/fpages")
+	public Page<DietEntity>page_12(@RequestParam int page,@RequestParam int size)
+	{
+		return use.get_data_all(page,size);
+	}
+	@GetMapping("/fstart")
+	public List<DietEntity> start_1(@RequestParam String food)
+	{
+		return use.start(food);
+	}
+	@GetMapping("/fend")
+	public List<DietEntity> end_1(@RequestParam String food)
+	{
+		return use.end(food);
+	}
+	@GetMapping("/fcontainss")
+	public List<DietEntity> contains(@RequestParam String food)
+	{
+		return use.namecontain(food);
+	}
+	@GetMapping("/fnotcontainss")
+	public List<DietEntity> notcon(@RequestParam String food)
+	{
+		return use.notcontains(food);
+	}
+	@GetMapping("/fandd")
+	public List<DietEntity> specific(@RequestParam String food,@RequestParam int quantity)
+	{
+		return use.retrive_specific(food, quantity);
+	}
+	@GetMapping("/forr")
+	public List<DietEntity>specificfor(@RequestParam String food,@RequestParam int quantity)
+	{
+		return use.retrive_specificforor(food, quantity);
+	}
+	@GetMapping("/finn")
+	public List<DietEntity>Sortingin(@RequestParam List<String>name)
+	{
+		return use.fetchone(name);
+	}
+
+}
