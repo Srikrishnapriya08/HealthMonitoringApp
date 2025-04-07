@@ -1,0 +1,20 @@
+package com.example.springdemo.Repository;
+
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.stereotype.Repository;
+import com.example.springdemo.Entity.UserEntity;
+
+@Repository
+public interface UserRepo extends JpaRepository<UserEntity, Integer>,PagingAndSortingRepository<UserEntity, Integer> {
+	List<UserEntity>findAll();
+	List<UserEntity>findByNameStartingWith(String name);
+	List<UserEntity>findByNameEndingWith(String name);
+	List<UserEntity>findByNameContains(String name);
+	List<UserEntity>findByNameNotContains(String name);
+	List<UserEntity>findByNameAndAge(String name,int age);
+	List<UserEntity>findByNameOrAge(String name,int age);
+	List<UserEntity>findByNameIn(List<String>name);
+}
