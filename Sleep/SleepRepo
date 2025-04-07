@@ -1,0 +1,21 @@
+package com.example.springdemo.Repository;
+
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
+
+import com.example.springdemo.Entity.SleepEntity;
+import com.example.springdemo.Entity.UserEntity;
+
+public interface SleepRepo extends JpaRepository<SleepEntity, Integer> ,PagingAndSortingRepository<SleepEntity, Integer>{
+	List<SleepEntity>findAll();
+	List<SleepEntity>findByStagesStartingWith(String stages);
+	List<SleepEntity>findByStagesEndingWith(String stages);
+	List<SleepEntity>findByStagesContains(String stages);
+	List<SleepEntity>findByStagesNotContains(String stages);
+	List<SleepEntity>findByStagesAndDuration(String stages,String duration);
+	List<SleepEntity>findByStagesOrDuration(String stages,String duration);
+	List<SleepEntity>findByStagesIn(List<String>stages);
+
+}
