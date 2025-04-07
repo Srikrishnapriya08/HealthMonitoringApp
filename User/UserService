@@ -1,0 +1,113 @@
+package com.example.springdemo.Service;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.stereotype.Service;
+import com.example.springdemo.Entity.UserEntity;
+import com.example.springdemo.Repository.UserRepo;
+
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimeMessage;
+
+@Service
+public class UserService {
+	@Autowired UserRepo ser;
+	@Autowired JavaMailSender sender;
+	public UserEntity post(UserEntity roll)
+	{
+		return ser.save(roll);
+	}
+	public List<UserEntity> getall()
+	{
+		return ser.findAll();
+	}
+	public String deleteid(int id)
+	{
+		if(ser.existsById(id))
+		{
+			ser.deleteById(id);
+			return "Value Deleted Successfully";
+		}
+		else
+		{
+			return "Value Not Found"+id;
+		}
+	}
+	public UserEntity updateid(int id,UserEntity etd)
+	{
+		if(ser.existsById(id))
+		{
+			UserEntity obj =  ser.findById(id).get();
+			obj.setName(etd.getName());
+			obj.setEmail(etd.getEmail());
+			obj.setAge(etd.getAge());
+			obj.setGender(etd.getGender());
+			obj.setAge(etd.getHeight());
+			obj.setWeight(etd.getWeight());
+			return ser.save(obj);
+		}
+		return etd;
+	}
+	public Page<UserEntity>get_data_all(int page,int size)
+	{
+		PageRequest obj=PageRequest.of(page, size);
+		return ser.findAll(obj);
+	}
+	public List<UserEntity>start(String name)
+	{
+		return ser.findByNameStartingWith(name);
+	}
+	public List<UserEntity>end(String name)
+	{
+		return ser.findByNameEndingWith(name);
+	}
+	public List<UserEntity> namecontain(String name)
+	   {
+	  	return ser.findByNameContains(name);
+	  }
+	public List<UserEntity> notcontains(String name)
+	   {
+		   return ser.findByNameNotContains(name);
+	   }
+	public List<UserEntity>retrive_specific(String name,int age)
+	{
+		return ser.findByNameAndAge(name, age);
+	}
+	public List<UserEntity>retrive_specificforor(String name,int age)
+	{
+		return ser.findByNameOrAge(name, age);
+	}
+	public List<UserEntity>fetchone(List<String>name)
+	{
+		return ser.findByNameIn(name);
+	}
+	public String sendmail(String receiver,String subject,String body)
+	{
+		try {
+		MimeMessage message=sender.createMimeMessage();
+		MimeMessageHelper helper=new MimeMessageHelper(message);
+		helper.setTo(receiver);
+		helper.setSubject(subject);
+		helper.setText(body);
+		sender.send(message);
+		
+		UserEntity email=new UserEntity();
+		email.setReceiver(receiver);
+		email.setSubject(subject);
+		email.setBody(body);
+		ser.save(email);
+		return "Email Send Successfully"+receiver;
+		} catch (MessagingException e) {
+			return "Email Not Found"+e.getMessage();
+		}
+	}
+	
+	
+
+
+}
