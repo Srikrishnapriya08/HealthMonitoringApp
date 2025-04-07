@@ -1,0 +1,21 @@
+package com.example.springdemo.Repository;
+
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
+
+import com.example.springdemo.Entity.RecordEntity;
+import com.example.springdemo.Entity.UserEntity;
+
+public interface RecordRepo extends JpaRepository<RecordEntity, Integer>,PagingAndSortingRepository<RecordEntity, Integer> {
+	List<RecordEntity>findAll();
+	List<RecordEntity>findByNameStartingWith(String name);
+	List<RecordEntity>findByNameEndingWith(String name);
+	List<RecordEntity>findByNameContains(String name);
+	List<RecordEntity>findByNameNotContains(String name);
+	List<RecordEntity>findByNameAndHeartrate(String name,int heartrate);
+	List<RecordEntity>findByNameOrHeartrate(String name,int heartrate);
+	List<RecordEntity>findByNameIn(List<String>name);
+
+}
