@@ -1,0 +1,85 @@
+package com.example.springdemo.Service;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.stereotype.Service;
+
+import com.example.springdemo.Entity.ExerciseEntity;
+import com.example.springdemo.Entity.RecordEntity;
+import com.example.springdemo.Entity.UserEntity;
+import com.example.springdemo.Repository.ExerciseRepo;
+
+@Service
+public class ExerciseService {
+	@Autowired ExerciseRepo rep;
+	public ExerciseEntity post(ExerciseEntity roll)
+	{
+		return rep.save(roll);
+	}
+	public List<ExerciseEntity> getall3()
+	{
+		return rep.findAll();
+	}
+	public String deleteid(int id)
+	{
+		if(rep.existsById(id))
+		{
+			rep.deleteById(id);
+			return "Value Deleted Successfully";
+		}
+		else
+		{
+			return "Value Not Found"+id;
+		}
+	}
+	public ExerciseEntity updateid(int id,ExerciseEntity etd)
+	{
+	     if(rep.existsById(id))
+	     {
+	    	 ExerciseEntity obj=rep.findById(id).get();
+	    	 obj.setEtype(etd.getEtype());
+	    	 obj.setDuration(etd.getDuration());
+	    	 obj.setCaloriesburned(etd.getCaloriesburned());
+	    	 return rep.save(obj);
+	     }
+	     return etd;
+	}
+	public Page<ExerciseEntity>get_data_all(int page,int size)
+	{
+		PageRequest obj=PageRequest.of(page, size);
+		return rep.findAll(obj);
+	}
+	public List<ExerciseEntity>start(String etype)
+	{
+		return rep.findByEtypeStartingWith(etype);
+	}
+	public List<ExerciseEntity>end(String etype)
+	{
+		return rep.findByEtypeEndingWith(etype);
+	}
+	public List<ExerciseEntity> namecontain(String etype)
+	   {
+	  	return rep.findByEtypeContains(etype);
+	  }
+	public List<ExerciseEntity> notcontains(String etype)
+	   {
+		   return rep.findByEtypeNotContains(etype);
+	   }
+	public List<ExerciseEntity>retrive_specific(String etype,int duration)
+	{
+		return rep.findByEtypeAndDuration(etype, duration);
+	}
+	public List<ExerciseEntity>retrive_specificforor(String etype,int duration)
+	{
+		return rep.findByEtypeOrDuration(etype,duration );
+	}
+	public List<ExerciseEntity>fetchone(List<String>name)
+	{
+		return rep.findByEtypeIn(name);
+	}
+
+
+}
