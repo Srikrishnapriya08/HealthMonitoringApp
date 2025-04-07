@@ -1,0 +1,85 @@
+package com.example.springdemo.Service;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.stereotype.Service;
+
+import com.example.springdemo.Entity.RecordEntity;
+import com.example.springdemo.Entity.SleepEntity;
+import com.example.springdemo.Entity.UserEntity;
+import com.example.springdemo.Repository.SleepRepo;
+
+@Service
+public class SleepService {
+	@Autowired SleepRepo rep;
+	public SleepEntity post(SleepEntity roll)
+	{
+		return rep.save(roll);
+	}
+	public List<SleepEntity> getall5()
+	{
+		return rep.findAll();
+	}
+	public String deleteid(int id)
+	{
+		if(rep.existsById(id))
+		{
+			rep.deleteById(id);
+			return "Value Deleted Successfully";
+		}
+		else
+		{
+			return "Value Not Found"+id;
+		}
+	}
+	public SleepEntity updateid(int id,SleepEntity etd)
+	{
+	     if(rep.existsById(id))
+	     {
+	    	 SleepEntity obj=rep.findById(id).get();
+	    	 obj.setStart(etd.getStart());
+	    	 obj.setEnd(etd.getEnd());
+	    	 obj.setDuration(etd.getDuration());
+	    	 obj.setStages(etd.getStages());
+	    	 return rep.save(obj);
+	     }
+	     return etd;
+	}
+	public Page<SleepEntity>get_data_all(int page,int size)
+	{
+		PageRequest obj=PageRequest.of(page, size);
+		return rep.findAll(obj);
+	}
+	public List<SleepEntity>start(String stages)
+	{
+		return rep.findByStagesStartingWith(stages);
+	}
+	public List<SleepEntity>end(String stages)
+	{
+		return rep.findByStagesEndingWith(stages);
+	}
+	public List<SleepEntity> namecontain(String stages)
+	   {
+	  	return rep.findByStagesContains(stages);
+	  }
+	public List<SleepEntity> notcontains(String stages)
+	   {
+		   return rep.findByStagesNotContains(stages);
+	   }
+	public List<SleepEntity>retrive_specific(String stages,String duration)
+	{
+		return rep.findByStagesAndDuration(stages, duration);
+	}
+	public List<SleepEntity>retrive_specificforor(String stages,String duration)
+	{
+		return rep.findByStagesOrDuration(stages, duration);
+	}
+	public List<SleepEntity>fetchone(List<String>stages)
+	{
+		return rep.findByStagesIn(stages);
+	}
+
+}
