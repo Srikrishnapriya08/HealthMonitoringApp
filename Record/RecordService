@@ -1,0 +1,84 @@
+package com.example.springdemo.Service;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.stereotype.Service;
+import com.example.springdemo.Entity.RecordEntity;
+import com.example.springdemo.Entity.UserEntity;
+import com.example.springdemo.Repository.RecordRepo;
+
+@Service
+public class RecordService {
+	@Autowired RecordRepo rep;
+	public RecordEntity post(RecordEntity roll)
+	{
+		return rep.save(roll);
+	}
+	public List<RecordEntity> getall2()
+	{
+		return rep.findAll();
+	}
+	public String deleteid(int id)
+	{
+		if(rep.existsById(id))
+		{
+			rep.deleteById(id);
+			return "Value Deleted Successfully";
+		}
+		else
+		{
+			return "Value Not Found"+id;
+		}
+	}
+	public RecordEntity updateid(int id,RecordEntity etd)
+	{
+	     if(rep.existsById(id))
+	     {
+	    	 RecordEntity obj=rep.findById(id).get();
+	    	 obj.setHeartrate(etd.getHeartrate());
+	    	 obj.setBp(etd.getBp());
+	    	 obj.setTemp(etd.getTemp());
+	    	 obj.setSugar(etd.getSugar());
+	    	 obj.setName(etd.getName());
+	    	 return rep.save(obj);
+	     }
+	     return etd;
+	}
+	public Page<RecordEntity>get_data_all(int page,int size)
+	{
+		PageRequest obj=PageRequest.of(page, size);
+		return rep.findAll(obj);
+	}
+	public List<RecordEntity>start(String name)
+	{
+		return rep.findByNameStartingWith(name);
+	}
+	public List<RecordEntity>end(String name)
+	{
+		return rep.findByNameEndingWith(name);
+	}
+	public List<RecordEntity> namecontain(String name)
+	   {
+	  	return rep.findByNameContains(name);
+	  }
+	public List<RecordEntity> notcontains(String name)
+	   {
+		   return rep.findByNameNotContains(name);
+	   }
+	public List<RecordEntity>retrive_specific(String name,int heartrate)
+	{
+		return rep.findByNameAndHeartrate(name, heartrate);
+	}
+	public List<RecordEntity>retrive_specificforor(String name,int heartrate)
+	{
+		return rep.findByNameOrHeartrate(name, heartrate);
+	}
+	public List<RecordEntity>fetchone(List<String>name)
+	{
+		return rep.findByNameIn(name);
+	}
+
+}
