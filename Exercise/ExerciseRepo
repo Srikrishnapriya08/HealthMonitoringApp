@@ -1,0 +1,22 @@
+package com.example.springdemo.Repository;
+
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
+
+import com.example.springdemo.Entity.ExerciseEntity;
+import com.example.springdemo.Entity.UserEntity;
+
+public interface ExerciseRepo extends JpaRepository<ExerciseEntity, Integer>,PagingAndSortingRepository<ExerciseEntity, Integer>{
+	List<ExerciseEntity>findAll();
+	List<ExerciseEntity>findByEtypeStartingWith(String etype);
+	List<ExerciseEntity>findByEtypeEndingWith(String etype);
+	List<ExerciseEntity>findByEtypeContains(String etype);
+	List<ExerciseEntity>findByEtypeNotContains(String etype);
+	List<ExerciseEntity>findByEtypeAndDuration(String etype,int duration);
+	List<ExerciseEntity>findByEtypeOrDuration(String etype,int duration);
+	List<ExerciseEntity>findByEtypeIn(List<String>etype);
+	
+
+}
