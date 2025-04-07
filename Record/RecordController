@@ -1,0 +1,85 @@
+package com.example.springdemo.Controller;
+
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.stereotype.Repository;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import com.example.springdemo.Entity.RecordEntity;
+import com.example.springdemo.Entity.UserEntity;
+import com.example.springdemo.Service.RecordService;
+
+@RestController
+public class RecordController {
+	@Autowired RecordService use;
+	@GetMapping("/getrecord")
+	public List<RecordEntity> get()
+	{
+		return use.getall2();
+	}
+	@PostMapping("/recordpost")
+	public RecordEntity recordd(@RequestBody RecordEntity obj)
+	{
+		return use.post(obj);
+	}
+	@DeleteMapping("/deleterecord/{data}")
+	public String deleted(@PathVariable int data)
+	{
+		return use.deleteid(data);
+	}
+	@PutMapping("/updaterecord/{id}")
+	public RecordEntity updatebyid(@PathVariable int id,@RequestBody RecordEntity end)
+	{
+		return use.updateid(id, end);
+	}
+	@GetMapping("/recpages")
+	public Page<RecordEntity>page_12(@RequestParam int page,@RequestParam int size)
+	{
+		return use.get_data_all(page,size);
+	}
+	@GetMapping("/recstart")
+	public List<RecordEntity> start_1(@RequestParam String name)
+	{
+		return use.start(name);
+	}
+	@GetMapping("/recend")
+	public List<RecordEntity> end_1(@RequestParam String name)
+	{
+		return use.end(name);
+	}
+	@GetMapping("/reccontainss")
+	public List<RecordEntity> contains(@RequestParam String name)
+	{
+		return use.namecontain(name);
+	}
+	@GetMapping("/recnotcontainss")
+	public List<RecordEntity> notcon(@RequestParam String name)
+	{
+		return use.notcontains(name);
+	}
+	@GetMapping("/recandd")
+	public List<RecordEntity> specific(@RequestParam String name,@RequestParam int heartrate)
+	{
+		return use.retrive_specific(name, heartrate);
+	}
+	@GetMapping("/recorr")
+	public List<RecordEntity>specificfor(@RequestParam String name,@RequestParam int heartrate)
+	{
+		return use.retrive_specificforor(name, heartrate);
+	}
+	@GetMapping("/recinn")
+	public List<RecordEntity>Sortingin(@RequestParam List<String>name)
+	{
+		return use.fetchone(name);
+	}
+
+}
