@@ -1,0 +1,19 @@
+package com.example.springdemo.Repository;
+
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
+
+import com.example.springdemo.Entity.DietEntity;
+
+public interface DietRepo extends JpaRepository<DietEntity, Integer>,PagingAndSortingRepository<DietEntity, Integer> {
+	List<DietEntity>findAll();
+	List<DietEntity>findByFoodStartingWith(String food);
+	List<DietEntity>findByFoodEndingWith(String food);
+	List<DietEntity>findByFoodContains(String food);
+	List<DietEntity>findByFoodNotContains(String food);
+	List<DietEntity>findByFoodAndQuantity(String food,int quantity);
+	List<DietEntity>findByFoodOrQuantity(String food,int quantity);
+	List<DietEntity>findByFoodIn(List<String>food);
+}
